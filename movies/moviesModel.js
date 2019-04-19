@@ -11,5 +11,10 @@ async function insert(movie){
 }
 
 function remove(id) {
-  return null;
+  const Deletedmovie = db('movies').where({id}).first();
+  db('movies')
+    .where('id', id)
+    .del();
+  return Deletedmovie;
+
 }
