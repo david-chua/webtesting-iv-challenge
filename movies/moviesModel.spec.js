@@ -31,8 +31,9 @@ describe('The Movies Model', () => {
     it("should return the deleted movie's id", async () => {
       await Movies.insert({ name: 'Avengers: Age of Ultron', year_released: 2016 })
 
-      const deletedItem = await Movies.remove(1);
-      console.log("Deleted Item", deletedItem)
+      const deletedItem = await Movies.remove(1).then(response => {
+        return response
+      })
       expect(deletedItem.id).toBe(1);
       expect(deletedItem.name).toBe('Avengers: Age of Ultron')
     })

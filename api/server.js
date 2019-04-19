@@ -26,4 +26,20 @@ server.post('/movies', async(req,res) => {
     })
 })
 
+server.delete('/movies/:id', async(req,res) => {
+  const {id} = req.params;
+
+  movies
+    .remove(id)
+    .then(response =>{
+      if (response === 0){
+        return res.status(404).json({err: 'No Projects found with that id'})
+      }
+      res.json(response)
+    })
+    .catch(err =>{
+      return res.status(500).status({err: 'Internal Server Error'})
+    })
+})
+
 module.exports = server;

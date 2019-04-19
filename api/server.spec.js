@@ -43,8 +43,6 @@ describe('the server', () => {
         expect(res.body).toEqual({'err': 'Internal Server Error'});
       })
 
-
-
       it('should respond with an object if a movie gets added', async() => {
         const res = await request(server).post('/movies')
         .send({ name: 'Avengers: Age of Ultron', year_released: 2016 })
@@ -53,5 +51,25 @@ describe('the server', () => {
         .expect({ id: 1, name: 'Avengers: Age of Ultron', year_released: 2016 })
       })
     }) // describe insert /movies
+
+    describe('Delete /movies', () => {
+      const deleteThisID = 2
+      it('should respond with a 500 error', async() => {
+
+        const res = await request(server).del(`/movies/${deleteThisID}`)
+        expect(500);
+      })
+
+      it('should response with an object', async() =>{
+
+        await db('movies').insert({ id: 1, name: 'Avengers: Age of Ultron', year_released: 2016 })
+
+        const deleteThisID = 1
+
+        const res = await request(server).del(`/movies/${deleteThisID}`)
+        expect(res.status).toBe(200)
+        expect(res.body).toEqual({ id: 1, name: 'Avengers: Age of Ultron', year_released: 2016 })
+      })
+    })
 
 }) //main describe
